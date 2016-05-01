@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- the theme applied to the application or activity -->
+    <style name="GigPoolTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorSecondary">@color/White</item>
+        <item name="android:textColorPrimary">@color/White</item>
+        <item name="actionMenuTextColor">@color/White</item>
+        <item name="colorPrimaryDark">@color/DarkVibrantRed</item>
+        <item name="popupTheme">@style/style_popUpMenu</item>
+    </style>
+
+
+    <style name="style_popUpMenu">
+        <item name="android:textColorPrimary">@color/Black</item>
+    </style>
+
+
+</resources>
