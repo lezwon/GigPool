@@ -1,6 +1,5 @@
 package test.lezwon.firstapp;
 
-
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -20,9 +19,7 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
-        String[] menuArray = getResources().getStringArray(R.array.drawer_array);
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ListView listView = (ListView) findViewById(R.id.list_view);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -31,12 +28,16 @@ public class HomeActivity extends AppCompatActivity {
                 R.string.closeDrawer
         );
 
-        listView.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_item, menuArray));
 
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+
+        actionBarDrawerToggle.syncState();
     }
 
     @Override
