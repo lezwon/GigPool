@@ -23,23 +23,27 @@
             android:layout_gravity="center"
 
             android:layout_alignParentEnd="false"
+            android:layout_alignParentRight="false"
             android:layout_alignParentStart="false" android:layout_alignParentTop="false"
             android:layout_alignParentLeft="false" android:layout_alignParentBottom="false"
             android:layout_alignWithParentIfMissing="false" android:layout_centerHorizontal="true"
             android:layout_marginTop="80dp"/>
 
-    <LinearLayout android:layout_width="250dp"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:padding="15dp"
-                  android:layout_gravity="center_horizontal"
-                  android:background="@drawable/rectangle"
-                  android:layout_marginTop="10dp"
-                  android:baselineAligned="false" android:layout_alignParentTop="false"
-                  android:layout_alignParentBottom="false" android:layout_below="@+id/imageView"
-                  android:layout_centerHorizontal="true" android:layout_alignParentEnd="false"
-                  android:layout_alignParentStart="false" android:layout_alignParentRight="false"
-                  android:layout_alignWithParentIfMissing="false">
+    <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rectangle"
+            android:layout_marginTop="10dp"
+            android:baselineAligned="false" android:layout_alignParentTop="false"
+            android:layout_alignParentBottom="false" android:layout_below="@+id/imageView"
+            android:layout_centerHorizontal="true" android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false" android:layout_alignParentRight="false"
+            android:layout_alignWithParentIfMissing="false"
+            android:layout_alignParentLeft="false"
+    >
 
 
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
@@ -54,11 +58,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/btn_signup"
-                    android:background="@drawable/background_buttons"
+                    android:background="@drawable/states_buttons"
                     android:padding="15dp"
                     android:button="@android:color/transparent"
                     android:minWidth="105dp"
                     android:gravity="center"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="0dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="0dp"
                     android:textColor="@color/states_btn_text"
@@ -71,11 +77,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/btn_login"
-                    android:background="@drawable/background_buttons"
+                    android:background="@drawable/states_buttons"
                     android:padding="15dp"
                     android:button="@android:color/transparent"
                     android:minWidth="105dp"
                     android:gravity="center"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="0dp"
                     android:layout_marginRight="0dp"
                     android:layout_marginLeft="5dp"
                     android:onClick="toggleForm"
@@ -141,7 +149,6 @@
                         android:text="@string/submit"
                         android:textColor="#fff"
                         android:textSize="16sp"
-                        android:onClick="switchActivity"
                 />
             </LinearLayout>
 

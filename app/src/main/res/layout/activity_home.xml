@@ -10,23 +10,42 @@
         android:fitsSystemWindows="true"
 >
 
-    <RelativeLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".HomeActivity"
-    >
-
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/app_bar"
+        <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="4dp"
-                android:background="@color/VibrantRed"
-        />
+                android:layout_height="wrap_content"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                android:orientation="vertical">
 
-    </RelativeLayout>
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/app_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    android:background="@color/VibrantRed"
+            />
+
+            <android.support.design.widget.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabGravity="fill"
+                    app:tabMode="fixed"
+                    android:background="@color/VibrantRed"
+                    app:tabTextColor="@color/White"
+                    app:tabIndicatorColor="@color/White"
+            />
+
+            <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
+
+
+        </android.support.design.widget.AppBarLayout>
+
 
     <!--Drawer-->
 
@@ -36,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
-            android:background="@color/VibrantRed"
+            android:background="@color/OrangeRed"
             app:theme="@style/style_navigation"
             app:headerLayout="@layout/drawer_header"
             app:menu="@menu/drawer_view"

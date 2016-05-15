@@ -7,28 +7,28 @@
         android:gravity="center"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
+
         xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <com.pkmmte.view.CircularImageView
+    <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/pic_profile"
-            app:border="true"
-            app:border_color="#EEEEEE"
-            app:border_width="4dp"
-            app:shadow="false" />
+            app:civ_border_color="#EEEEEE"
+            app:civ_border_width="4dp"
+    />
 
 
 
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Lezwon Castellino"
-                android:id="@+id/textView"
-                android:textColor="@color/White"
-        />
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Lezwon Castellino"
+            android:id="@+id/textView"
+            android:textColor="@color/White"
+    />
 
 
 </LinearLayout>

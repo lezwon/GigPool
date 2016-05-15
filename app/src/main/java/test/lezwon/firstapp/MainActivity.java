@@ -1,19 +1,19 @@
 package test.lezwon.firstapp;
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.Button;
-import android.widget.Toast;
 
+
+/**
+ * Created by Lezwon on 15-05-2016.
+ * This is the MainActivity class and handles the display of the main activity
+ * within this application. The onCreate method creates the vies and assigns an event
+ * listener to the login button. The toggleForm function is used to toggle between the
+ * two forms. Sign up and Login.
+ */
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +22,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
+        Button logIn = (Button) findViewById(R.id.btn_login);
+
+        logIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -42,11 +52,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    public void switchActivity(View view) {
-        Intent intent = new Intent(this,HomeActivity.class);
-        startActivity(intent);
-
-    }
 }
 
