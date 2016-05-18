@@ -22,10 +22,6 @@
                 android:label="@string/title_activity_home"
                 android:theme="@style/GigPoolTheme">
         </activity>
-        <activity
-                android:name=".Tabs"
-                android:label="@string/title_activity_tabs">
-        </activity>
     </application>
 
 </manifest>

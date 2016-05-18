@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        Button logIn = (Button) findViewById(R.id.btn_login);
+        Button logInSubmitButton = (Button) findViewById(R.id.signIn_submit);
 
-        logIn.setOnClickListener(new View.OnClickListener() {
+        logInSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),HomeActivity.class);

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="names">
+        <item>Sharath</item>
+        <item>Lezwon</item>
+        <item>Ajinkya</item>
+    </string-array>
+
+    <string-array name="descriptions">
+        <item>Lorem ipsum dolor sit amet.</item>
+        <item>Lorem ipsum dolor sit amet, consectetur.</item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat.</item>
+    </string-array>
+
+</resources>

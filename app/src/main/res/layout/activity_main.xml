@@ -63,14 +63,10 @@
                     android:button="@android:color/transparent"
                     android:minWidth="105dp"
                     android:gravity="center"
-                    android:layout_marginEnd="0dp"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginLeft="0dp"
                     android:textColor="@color/states_btn_text"
                     android:onClick="toggleForm"
                     android:checked="true"
-            />
+                    android:layout_marginRight="10dp"/>
 
             <RadioButton
                     android:id="@+id/btn_login"
@@ -81,15 +77,10 @@
                     android:padding="15dp"
                     android:button="@android:color/transparent"
                     android:minWidth="105dp"
-                    android:gravity="center"
-                    android:layout_marginEnd="0dp"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_marginLeft="5dp"
                     android:onClick="toggleForm"
                     android:textColor="@color/states_btn_text"
 
-            />
+                    android:gravity="center"/>
         </RadioGroup>
 
         <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
