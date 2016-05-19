@@ -4,12 +4,33 @@
         <item>Sharath</item>
         <item>Lezwon</item>
         <item>Ajinkya</item>
+        <item>Denver</item>
+        <item>Rosch</item>
+        <item>Yash</item>
+        <item>Nava</item>
+        <item>Shivam</item>
     </string-array>
 
     <string-array name="descriptions">
         <item>Lorem ipsum dolor sit amet.</item>
         <item>Lorem ipsum dolor sit amet, consectetur.</item>
         <item>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat.</item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipisicing.</item>
+        <item>Exercitationem expedita, minus natus odit perferendis vitae.</item>
+        <item>Dolor eos explicabo maxime nobis ratione tempora.</item>
+        <item>Ad culpa eos in ipsa itaque voluptatum.</item>
+        <item>Cum eos iste minima sed tempore unde.</item>
     </string-array>
+
+    <array name="profileColors">
+        <item>@color/Blue</item>
+        <item>@color/VibrantRed</item>
+        <item>@color/Pink</item>
+        <item>@color/SkyBlue</item>
+        <item>@color/GreenYellow</item>
+        <item>@color/DeepSkyBlue</item>
+        <item>@color/Sienna</item>
+        <item>@color/Khaki</item>
+    </array>
 
 </resources>

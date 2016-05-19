@@ -2,6 +2,7 @@ package test.lezwon.firstapp;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,15 +28,14 @@ public class ChatListAdapter extends BaseAdapter {
         Resources resources = context.getResources();
         String[] names = resources.getStringArray(R.array.names);
         String[] descriptions = resources.getStringArray(R.array.descriptions);
-        int[] colors = {
-                R.color.Yellow,
-                R.color.Blue,
-                R.color.Pink,
-        };
+
+        TypedArray colors = resources.obtainTypedArray(R.array.profileColors);
 
         for (int i = 0; i < names.length; i++) {
-            chatRowArrayList.add(new ChatRow(names[i],descriptions[i],colors[i]));
+            chatRowArrayList.add(new ChatRow(names[i],descriptions[i],colors.getResourceId(i,1)));
         }
+
+        colors.recycle();
     }
 
 
