@@ -12,14 +12,20 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
+ *
+ * Implements tabs into the interface. Uses TabLayout to create a container for tabs and
+ * adds tabs in the TabLayout. TabListener is implemented to listen for change events.
+ *PageListener is implemented to listen for page scroll events and manipulate the tab
+ * selection accordingly.
+ *
  */
-public class HomeFragment extends Fragment {
+public class TabsFragment extends Fragment {
 
     private ViewPager viewPager; //slideshow manager
     private TabLayout tabLayout; //tabs title container
 
 
-    public HomeFragment() {
+    public TabsFragment() {
         // Required empty public constructor
     }
 
@@ -35,13 +41,13 @@ public class HomeFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_1_now)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_2_assigned)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_3_applied)));
-        tabLayout.setOnTabSelectedListener(new HomeFragment.TabListener());
+        tabLayout.setOnTabSelectedListener(new TabsFragment.TabListener());
 
         /*Connects view pager and adapter*/
         FragmentAdapter fragmentAdapter = new FragmentAdapter(getFragmentManager());
         viewPager = (ViewPager) layout.findViewById(R.id.viewpager);
         viewPager.setAdapter(fragmentAdapter);
-        viewPager.addOnPageChangeListener(new HomeFragment.ViewPagerListener());
+        viewPager.addOnPageChangeListener(new TabsFragment.ViewPagerListener());
 
 
         return layout;
