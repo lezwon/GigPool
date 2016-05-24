@@ -16,21 +16,13 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 android:orientation="vertical">
 
-            <android.support.v7.widget.Toolbar
-                    android:id="@+id/app_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    android:background="@color/VibrantRed"
-            />
+            <include layout="@layout/app_bar"/>
 
             <fragment
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/main_fragment"
                     android:name="test.lezwon.firstapp.ChatListFragment"
-                    android:layout_marginTop="10dp"
                     tools:layout="@layout/fragment_chat_list"
             />
 

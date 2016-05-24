@@ -1,6 +1,7 @@
 package test.lezwon.firstapp;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,8 +40,9 @@ public class ChatListFragment extends Fragment implements ChatListAdapter.ItemCl
 
     @Override
     public void onItemClickListener(View view, int position) {
-        TextView textView = (TextView) view.findViewById(R.id.chat_list_name);
-        Toast.makeText(getActivity(), textView.getText(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getContext(),ChatMessagesActivity.class);
+        intent.putExtra("EXTRA_CHAT_NAME",((TextView)view.findViewById(R.id.chat_list_name)).getText());
+        startActivity(intent);
     }
 
 }
