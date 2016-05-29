@@ -1,24 +1,31 @@
 package test.lezwon.firstapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import com.rockerhieu.emojicon.EmojiconEditText;
 import com.rockerhieu.emojicon.EmojiconGridFragment;
 import com.rockerhieu.emojicon.EmojiconsFragment;
 import com.rockerhieu.emojicon.emoji.Emojicon;
-import de.hdodenhof.circleimageview.CircleImageView;
+
+//todo attachment button
+//todo emoji/keyboard toggle button
 
 public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener,
         EmojiconGridFragment.OnEmojiconClickedListener,
         EmojiconsFragment.OnEmojiconBackspaceClickedListener  {
 
     private boolean emojiKeyboardOpen = false;
+    private EmojiconEditText emojiconEditText;
+    private FragmentManager supportFragmentManager = getSupportFragmentManager();
+    private ViewGroup fragmentContainer;
+    private ViewGroup.LayoutParams layoutParams;
+    private EmojiconsFragment emojiconsFragment = new EmojiconsFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,13 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_messages);
+
+        emojiconEditText = (EmojiconEditText) findViewById(R.id.chat_textbox);
+        fragmentContainer = (ViewGroup) findViewById(R.id.emojicons_container);
+        layoutParams = fragmentContainer.getLayoutParams();
+
+        supportFragmentManager.beginTransaction().add(R.id.emojicons_container, emojiconsFragment).commit();
+
 
 
         if(savedInstanceState == null){
@@ -35,8 +49,6 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
         else {
             name = (String) savedInstanceState.getSerializable("EXTRA_CHAT_NAME");
         }
-
-
 
 
         /*material design toolbar*/
@@ -57,6 +69,8 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         toolbar.setOnMenuItemClickListener(this);
+
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     //TODO go to precious activity by default
@@ -75,35 +89,42 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
     }
 
     @Override
+    public void onBackPressed(){
+        if(emojiKeyboardOpen){
+            layoutParams.height = 0;
+            fragmentContainer.setLayoutParams(layoutParams);
+            emojiKeyboardOpen = false;
+            return;
+        }
+
+        super.onBackPressed();
+    }
+
+    @Override
     public void onEmojiconClicked(Emojicon emojicon) {
-        EmojiconEditText chatBox = (EmojiconEditText) findViewById(R.id.chat_textbox);
-        chatBox.append(emojicon.getEmoji());
+        EmojiconsFragment.input(emojiconEditText,emojicon);
     }
 
     @Override
     public void onEmojiconBackspaceClicked(View v) {
-
+        EmojiconsFragment.backspace(emojiconEditText);
     }
 
     //todo go button string
 
     public void openEmoji(View view){
-
-        ViewGroup fragmentContainer = (ViewGroup) findViewById(R.id.emojicons);
-        ViewGroup.LayoutParams layoutParams = fragmentContainer.getLayoutParams();
+        layoutParams = fragmentContainer.getLayoutParams();
 
         if(emojiKeyboardOpen){
             layoutParams.height = 0;
-            fragmentContainer.removeAllViews();
             emojiKeyboardOpen = false;
         }
         else{
-            layoutParams.height = 250;
-            getSupportFragmentManager().beginTransaction().add(R.id.emojicons,new EmojiconGridFragment()).commit();
+            layoutParams.height = 350;
             emojiKeyboardOpen = true;
         }
 
+        fragmentContainer.setLayoutParams(layoutParams);
+
     }
-
-
 }
