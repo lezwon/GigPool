@@ -26,7 +26,9 @@
         </activity>
         <activity
                 android:name=".ChatMessagesActivity"
+                android:windowSoftInputMode="stateVisible|adjustPan"
         >
+
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="test.lezwon.firstapp.HomeActivity" />

@@ -1,13 +1,15 @@
 package test.lezwon.firstapp;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
+import android.widget.Button;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.rockerhieu.emojicon.EmojiconEditText;
 import com.rockerhieu.emojicon.EmojiconGridFragment;
 import com.rockerhieu.emojicon.EmojiconsFragment;
@@ -27,12 +29,14 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
     private ViewGroup.LayoutParams layoutParams;
     private EmojiconsFragment emojiconsFragment = new EmojiconsFragment();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         String name;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_messages);
+        ButterKnife.bind(this);
 
         emojiconEditText = (EmojiconEditText) findViewById(R.id.chat_textbox);
         fragmentContainer = (ViewGroup) findViewById(R.id.emojicons_container);
@@ -112,6 +116,8 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
 
     //todo go button string
 
+
+    @OnClick(R.id.btn_insert_emoji)
     public void openEmoji(View view){
         layoutParams = fragmentContainer.getLayoutParams();
 
