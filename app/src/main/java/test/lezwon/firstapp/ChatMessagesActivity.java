@@ -118,7 +118,7 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
 
 
     @OnClick(R.id.btn_insert_emoji)
-    public void openEmoji(View view){
+    void openEmoji(View view){
         layoutParams = fragmentContainer.getLayoutParams();
 
         if(emojiKeyboardOpen){
@@ -132,5 +132,13 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
 
         fragmentContainer.setLayoutParams(layoutParams);
 
+    }
+
+    //todo drawer icons
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_chat_messages,menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
