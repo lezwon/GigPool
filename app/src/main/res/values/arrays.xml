@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dummy_data">
+        <item>Lorem ipsum.</item>
+        <item>Delectus, saepe.</item>
+        <item>Enim, nulla.</item>
+        <item>Alias, dicta?</item>
+        <item>Eveniet, rem!</item>
+        <item>Atque, optio!</item>
+    </string-array>
+</resources>

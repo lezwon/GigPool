@@ -6,8 +6,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
-import android.widget.Button;
-import butterknife.BindView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.rockerhieu.emojicon.EmojiconEditText;
@@ -17,6 +18,8 @@ import com.rockerhieu.emojicon.emoji.Emojicon;
 
 //todo attachment button
 //todo emoji/keyboard toggle button
+//todo fix fragemnt change emoji
+//todo popup
 
 public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener,
         EmojiconGridFragment.OnEmojiconClickedListener,
@@ -41,10 +44,7 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
         emojiconEditText = (EmojiconEditText) findViewById(R.id.chat_textbox);
         fragmentContainer = (ViewGroup) findViewById(R.id.emojicons_container);
         layoutParams = fragmentContainer.getLayoutParams();
-
         supportFragmentManager.beginTransaction().add(R.id.emojicons_container, emojiconsFragment).commit();
-
-
 
         if(savedInstanceState == null){
             Bundle extras = getIntent().getExtras();
@@ -54,26 +54,26 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
             name = (String) savedInstanceState.getSerializable("EXTRA_CHAT_NAME");
         }
 
-
         /*material design toolbar*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle(name);
         setSupportActionBar(toolbar);
 
         /*Get chat toolbar layout*/
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        layoutInflater.inflate(R.layout.chat_toolbar_details,toolbar);
+        View toolbarLayout =  layoutInflater.inflate(R.layout.chat_toolbar_details,toolbar);
+        ((TextView)toolbarLayout.findViewById(R.id.chat_name)).setText(name);
+
+        /*Initialize Chat List View*/
+        ListView chatMessagesListView = (ListView) findViewById(R.id.list_chat_messages);
+        ArrayAdapter<String> chatMessagesArrayAdapter = new ArrayAdapter<>(this,R.layout.layout_chat_message,getResources().getStringArray(R.array.dummy_data));
+        chatMessagesListView.setAdapter(chatMessagesArrayAdapter);
 
         /*Initializes action bar abd back button*/
         ActionBar actionBar = getSupportActionBar();
-
         assert actionBar != null;
-
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-
         toolbar.setOnMenuItemClickListener(this);
-
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 

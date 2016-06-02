@@ -23,4 +23,10 @@
             app:showAsAction="never"
     />
 
+    <item
+            android:id="@+id/opt_delete"
+            android:title="@string/opt_delete"
+            app:showAsAction="never"
+    />
+
 </menu>

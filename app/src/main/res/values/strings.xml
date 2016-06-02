@@ -27,4 +27,5 @@
     <string name="chat_list_image">chat list profile image</string>
     <string name="opt_attach_file">Attachment</string>
     <string name="opt_call">Call</string>
+    <string name="opt_delete">Remove</string>
 </resources>
