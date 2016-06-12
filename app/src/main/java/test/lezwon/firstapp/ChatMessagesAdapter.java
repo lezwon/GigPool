@@ -49,12 +49,16 @@ class ChatMessagesAdapter extends BaseAdapter{
         if(view == null){
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             messageView = layoutInflater.inflate(R.layout.textbox_chat_outgoing,viewGroup,false);
-            TextView messageTextView = (TextView) messageView.findViewById(R.id.text_message);
-            TextView timeTextView = (TextView) messageView.findViewById(R.id.text_time);
-
-            messageTextView.setText(messages[i].getMessage());
-            timeTextView.setText("22:57");
         }
+        else{
+            messageView = view;
+        }
+
+        TextView messageTextView = (TextView) messageView.findViewById(R.id.text_message);
+        TextView timeTextView = (TextView) messageView.findViewById(R.id.text_time);
+
+        messageTextView.setText(messages[i].getMessage());
+        timeTextView.setText("22:57");
 
         return messageView;
     }

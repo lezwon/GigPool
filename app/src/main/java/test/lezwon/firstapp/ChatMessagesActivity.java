@@ -9,6 +9,7 @@ import android.view.*;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.rockerhieu.emojicon.EmojiconEditText;
@@ -134,7 +135,6 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
         }
 
         fragmentContainer.setLayoutParams(layoutParams);
-
     }
 
     //todo drawer icons
