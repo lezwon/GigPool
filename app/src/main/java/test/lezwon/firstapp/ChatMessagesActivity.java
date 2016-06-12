@@ -65,8 +65,11 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
 
         /*Initialize Chat List View*/
         ListView chatMessagesListView = (ListView) findViewById(R.id.list_chat_messages);
-        ArrayAdapter<String> chatMessagesArrayAdapter = new ArrayAdapter<>(this,R.layout.layout_chat_message,getResources().getStringArray(R.array.dummy_data));
-        chatMessagesListView.setAdapter(chatMessagesArrayAdapter);
+//        ArrayAdapter<String> chatMessagesArrayAdapter = new ArrayAdapter<>(this,R.layout.textbox_chat_outgoing,getResources().getStringArray(R.array.dummy_data));
+
+        ChatMessagesAdapter chatMessagesAdapter = new ChatMessagesAdapter(this);
+        chatMessagesListView.setAdapter(chatMessagesAdapter);
+
 
         /*Initializes action bar abd back button*/
         ActionBar actionBar = getSupportActionBar();
