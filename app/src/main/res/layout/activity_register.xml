@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="test.lezwon.firstapp.RegisterActivity">
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/bg_register"
+            android:scaleType="centerCrop"
+    />
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/shadow_black_top"
+            android:layout_above="@+id/phone_form_container">
+
+    </FrameLayout>
+
+    <LinearLayout
+            android:id="@+id/phone_form_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:padding="20dp"
+            android:background="@color/DodgerBlue"
+            android:orientation="vertical"
+
+    >
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter Phone Number"
+                android:textSize="20sp"
+                android:textColor="@color/White"
+                android:gravity="center"
+                android:padding="10dp"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginBottom="10dp"
+        />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="13"
+                android:layout_marginBottom="20dp"
+        >
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:textColor="@color/WhiteSmoke"
+                    android:gravity="center"
+                    android:textSize="25sp"
+                    android:maxLength="3"
+                    android:text="+91"
+                    android:enabled="false"
+            />
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:textColor="@color/White"
+                    android:gravity="center"
+                    android:textSize="25sp"
+                    android:maxLength="3"
+            />
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:textColor="@color/White"
+                    android:gravity="center"
+                    android:textSize="25sp"
+                    android:maxLength="3"
+            />
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:textColor="@color/White"
+                    android:gravity="center"
+                    android:textSize="25sp"
+                    android:maxLength="4"
+            />
+
+        </LinearLayout>
+
+
+
+        <Button
+                android:id="@+id/btn_verify_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/white_stroke"
+                android:text="Verify Number"
+                android:textSize="16sp"
+                android:stateListAnimator="@null"
+        />
+
+    </LinearLayout>
+
+</RelativeLayout>

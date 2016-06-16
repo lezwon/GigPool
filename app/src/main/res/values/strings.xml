@@ -28,4 +28,8 @@
     <string name="opt_attach_file">Attachment</string>
     <string name="opt_call">Call</string>
     <string name="opt_delete">Remove</string>
+
+    <string name="title_activity_register">Register</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

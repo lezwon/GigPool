@@ -16,9 +16,13 @@ class ChatMessagesAdapter extends BaseAdapter{
     private Message[] messages = {
       new Message("This city will fall"),
       new Message("The place will crush under your feet"),
-      new Message("ANd your joy will turn to ashes in your mouth"),
+      new Message("And your joy will turn to ashes in your mouth"),
       new Message("This city deserves a better class of villians"),
-      new Message("The BAt Begins"),
+      new Message("The Bat Begins"),
+      new Message("The Bat Begins"),
+      new Message("The Bat Begins"),
+      new Message("The Bat Begins"),
+      new Message("No i Wont"),
     };
 
     ChatMessagesAdapter(Context context) {
