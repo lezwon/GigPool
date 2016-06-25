@@ -66,6 +66,7 @@
             />
 
             <EditText
+                    android:id="@+id/text_phone_num_1"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
@@ -77,6 +78,7 @@
             />
 
             <EditText
+                    android:id="@+id/text_phone_num_2"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
@@ -88,6 +90,7 @@
             />
 
             <EditText
+                    android:id="@+id/text_phone_num_3"
                     android:layout_width="0dp"
                     android:layout_weight="4"
                     android:layout_height="wrap_content"
