@@ -3,8 +3,9 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="test.lezwon.firstapp.RegisterActivity">
+        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context="test.lezwon.firstapp.RegisterActivity"
+>
 
     <ImageView
             android:layout_width="match_parent"
@@ -16,7 +17,7 @@
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="@drawable/shadow_black_top"
+            android:background="@drawable/shadow_bottom_to_top"
             android:layout_above="@+id/phone_form_container">
 
     </FrameLayout>
@@ -51,6 +52,8 @@
                 android:weightSum="13"
                 android:layout_marginBottom="20dp"
         >
+
+
 
             <EditText
                     android:layout_width="0dp"

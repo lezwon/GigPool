@@ -5,15 +5,20 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.azimolabs.maskformatter.MaskFormatter;
 
 import java.util.ArrayList;
 
 public class RegisterActivity extends AppCompatActivity {
 
+
+    private static final String IBAN_MASK = "999 999 9999";
     private ArrayList<EditText> phoneEditTextArrayList;
 
     @Override
@@ -21,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
+
 
         phoneEditTextArrayList = new ArrayList<>();
         phoneEditTextArrayList.add((EditText) findViewById(R.id.text_phone_num_1));
@@ -31,6 +37,9 @@ public class RegisterActivity extends AppCompatActivity {
             phoneEditTextArrayList.get(i).addTextChangedListener(new PhoneNumberTextboxListener(i));
         }
     }
+
+
+
 
     @OnClick(R.id.btn_verify_number)
     void verifyNumber(View view){
@@ -57,14 +66,16 @@ public class RegisterActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            if(editable.length() == 3 && currentTextBoxPos != 2){
+            if(editable.length() >= 3 && currentTextBoxPos != 2){
                 phoneEditTextArrayList.get(currentTextBoxPos +1).requestFocus();
                 return;
             }
 
             //todo backspace deletes from previous edittext
             if(editable.length() == 0 && currentTextBoxPos != 0){
-                phoneEditTextArrayList.get(currentTextBoxPos -1).requestFocus();
+                EditText editText = phoneEditTextArrayList.get(currentTextBoxPos - 1);
+                editText.requestFocus();
+                editText.dispatchKeyEvent(new KeyEvent(100,500,KeyEvent.ACTION_DOWN,KeyEvent.KEYCODE_DEL,3));
             }
 
         }
