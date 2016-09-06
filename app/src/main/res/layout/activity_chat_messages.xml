@@ -12,14 +12,21 @@
 >
 
 
-        <ImageView
+<!--        <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/chat_bg"
                 android:scaleType="centerCrop"
-        />
+        />-->
 
         <include layout="@layout/app_bar" android:id="@+id/toolbar_container"/>
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_below="@id/toolbar_container"
+                android:layout_height="5dp"
+                android:background="@drawable/shadow_top_to_bottom"
+        />
 
 
 
@@ -35,6 +42,13 @@
                 android:layout_marginBottom="60dp"
         />
 
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_above="@+id/text_message_container"
+                android:layout_height="5dp"
+                android:background="@drawable/shadow_bottom_to_top"
+        />
 
         <LinearLayout
                 android:id="@+id/text_message_container"
@@ -90,5 +104,49 @@
                 android:background="@color/LightGrey"
                 android:layout_alignParentBottom="true"
         />
+
+        <FrameLayout
+                android:id="@+id/menu_attachmentOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone"
+        >
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/Purple"
+                        android:useDefaultMargins="true"
+                        android:orientation="vertical"
+                >
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="10dp"
+                                android:weightSum="3"
+                        >
+                                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_call" android:layout_weight="1" />
+                                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_call" android:layout_weight="1" />
+                                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_call" android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="10dp"
+                                android:weightSum="3"
+                        >
+                                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_call" android:layout_weight="1" />
+                                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_call" android:layout_weight="1" />
+                                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_call" android:layout_weight="1" />
+                        </LinearLayout>
+
+
+                </LinearLayout>
+
+        </FrameLayout>
 
 </RelativeLayout>

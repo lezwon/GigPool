@@ -1,15 +1,14 @@
 package test.lezwon.firstapp;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.rockerhieu.emojicon.EmojiconEditText;
@@ -91,8 +90,71 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
                 getFragmentManager().popBackStack();
                 return true;
 
+            case R.id.opt_attachFile:
+                toggleAttachmentMenu();
+                return true;
+
             default:
                 return false;
+        }
+    }
+
+    private void toggleAttachmentMenu() {
+        final FrameLayout menuAttachmentContainer = (FrameLayout) findViewById(R.id.menu_attachmentOptions);
+        Animator anim;
+
+        /*Get Width and Height*/
+        int x = menuAttachmentContainer.getWidth();
+        int y = menuAttachmentContainer.getHeight();
+
+        /*Set Final Radius*/
+        float finalRadius = (float) Math.hypot(x,y);
+
+        /*Store Start Coordinates*/
+        x/=2;
+
+        switch(menuAttachmentContainer.getVisibility()){
+            case View.GONE:
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    /*Create Animation*/
+                    anim = ViewAnimationUtils.createCircularReveal(menuAttachmentContainer,x,y,0,finalRadius);
+
+                    /*Set Visibility*/
+                    menuAttachmentContainer.setVisibility(View.VISIBLE);
+
+                    /*Start Animation*/
+                    anim.start();
+                    return;
+                }
+
+                menuAttachmentContainer.setVisibility(View.VISIBLE);
+                break;
+
+            case View.VISIBLE:
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    /*Create Animation*/
+                    anim = ViewAnimationUtils.createCircularReveal(menuAttachmentContainer,x,y,finalRadius,0);
+
+                    /*Set Visibility*/
+                    menuAttachmentContainer.setVisibility(View.VISIBLE);
+
+                    /*Set Animation Listener*/
+                    anim.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            menuAttachmentContainer.setVisibility(View.GONE);
+                        }
+                    });
+
+                    /*Start Animation*/
+                    anim.start();
+                    return;
+                }
+
+                menuAttachmentContainer.setVisibility(View.GONE);
+                break;
         }
     }
 
