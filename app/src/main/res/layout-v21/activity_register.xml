@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center"
-            android:visibility="gone"
+            android:visibility="visible"
     >
 
         <LinearLayout
@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center"
-            android:visibility="gone"
+            android:visibility="visible"
     >
 
         <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
@@ -169,9 +169,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:visibility="gone"
     >
 
-        <LinearLayout 
+        <LinearLayout
                 android:layout_width="wrap_content" 
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -183,14 +184,14 @@
                       android:layout_height="wrap_content"
                       android:text="I'm a "
                       android:layout_gravity="center"
-                      android:textSize="30sp"
+                      android:textSize="25sp"
             />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:layout_width="200dp" 
                     android:layout_height="200dp"
-                    android:src="@color/LightBlue"
+                    android:src="@color/White"
                     android:layout_gravity="center"
             />
             
@@ -229,13 +230,13 @@
                 </RadioGroup>
                 
             </RelativeLayout>
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
+            
+            <LinearLayout 
+                    android:layout_width="wrap_content" 
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
+
             >
 
                 <EditText
@@ -246,18 +247,22 @@
                         android:layout_marginRight="15dp"
                         android:layout_marginEnd="15dp"
                         android:singleLine="true" android:numeric="integer" android:nestedScrollingEnabled="false"
-                        android:inputType="number" android:digits="2"/>
+                        android:inputType="number" android:digits="2"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"
+                />
 
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="years old"
-                        android:textSize="25sp"
+                        android:textSize="20sp"
                         android:textColor="@color/White"
+                        android:layout_marginTop="10dp"
                 />
-
+                
             </LinearLayout>
-
+            
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

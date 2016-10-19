@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:tools="http://schemas.android.com/tools" android:transitionOrdering="sequential" xmlns:android="http://schemas.android.com/apk/res/android"
+               tools:targetApi="kitkat">
+    <changeBounds android:duration="300" />
+    <fade android:duration="150">
+        <targets>
+            <target android:targetId="@id/layout_form_phone"/>
+        </targets>
+    </fade>
+</transitionSet>

@@ -99,6 +99,8 @@ public class ChatMessagesActivity extends AppCompatActivity implements Toolbar.O
         }
     }
 
+    //// TODO: 06-09-2016  install circular reveal library 
+    
     private void toggleAttachmentMenu() {
         final FrameLayout menuAttachmentContainer = (FrameLayout) findViewById(R.id.menu_attachmentOptions);
         Animator anim;
