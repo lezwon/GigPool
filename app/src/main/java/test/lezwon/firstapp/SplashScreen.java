@@ -3,14 +3,13 @@ package test.lezwon.firstapp;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -20,12 +19,18 @@ public class SplashScreen extends AppCompatActivity {
     @BindView(R.id.btn_register)
     Button btn_register;
 
+    @BindView(R.id.app_title)
+    TextView appTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         ButterKnife.bind(this);
         btn_register.setTranslationY(300);
+
+        Typeface bubblegums = Typeface.createFromAsset(getAssets(), "fonts/BUBBLEGUMS.TTF");
+        appTitle.setTypeface(bubblegums);
     }
 
     @Override
