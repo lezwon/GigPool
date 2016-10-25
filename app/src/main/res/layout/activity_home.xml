@@ -14,7 +14,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:animateLayoutChanges="true"
+        >
 
             <include layout="@layout/app_bar" android:id="@+id/include_app_bar"/>
 
@@ -28,20 +30,19 @@
             </FrameLayout>
 
             <fragment
+                    android:id="@+id/fragment_chat_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_below="@id/include_app_bar"
-                    android:id="@+id/main_fragment"
                     android:name="test.lezwon.firstapp.ChatListFragment"
                     tools:layout="@layout/fragment_chat_list"
             />
-
-
 
             <RelativeLayout
                     android:id="@+id/container_menu_bottom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
             >
                 <FrameLayout
                         android:layout_width="match_parent"
@@ -71,7 +72,6 @@
 
                 </LinearLayout>
             </RelativeLayout>
-
 
         </RelativeLayout>
 

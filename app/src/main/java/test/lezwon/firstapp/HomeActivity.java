@@ -1,17 +1,15 @@
 package test.lezwon.firstapp;
 
 import android.animation.Animator;
-import android.animation.AnimatorInflater;
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
 import butterknife.BindView;
@@ -29,6 +27,11 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.container_menu_bottom)
     RelativeLayout container_menu_bottom;
 
+    private boolean bottom_menu_is_active = false;
+    private float startValue = 150;
+    private float endValue = 0;
+    private RecyclerView recyclerView;
+    private ViewGroup.LayoutParams layoutParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +46,18 @@ public class HomeActivity extends AppCompatActivity {
         /*Hide Bottom Menu*/
 //        container_menu_bottom.setVisibility(View.INVISIBLE);
         container_menu_bottom.setTranslationY(300);
+        initializeDrawer(toolbar);
+    }
 
-        /*enables the drawer toggle button*/
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        recyclerView = (RecyclerView) getSupportFragmentManager().findFragmentById(R.id.fragment_chat_list).getView();
+        layoutParams = recyclerView != null ? recyclerView.getLayoutParams() : null;
+    }
+
+    private void initializeDrawer(Toolbar toolbar) {
+    /*enables the drawer toggle button*/
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -58,8 +71,11 @@ public class HomeActivity extends AppCompatActivity {
         /*enables toggle button*/
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        initializeActionBar(actionBarDrawerToggle);
+    }
 
-        /*Initializes action bar abd back button*/
+    private void initializeActionBar(ActionBarDrawerToggle actionBarDrawerToggle) {
+    /*Initializes action bar abd back button*/
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
@@ -78,19 +94,58 @@ public class HomeActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.opt_addTask:
-                slideInBottomMenu();
+                toggleBottomMenu();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void slideInBottomMenu() {
-//        container_menu_bottom.setVisibility(View.VISIBLE);
-        Animator menu_slideIn = AnimatorInflater.loadAnimator(this, R.animator.animation);
-        menu_slideIn.setTarget(container_menu_bottom);;
-        menu_slideIn.setInterpolator(new LinearInterpolator());
-        menu_slideIn.start();
+    @Override
+    public void onBackPressed() {
+        if(bottom_menu_is_active){
+            toggleBottomMenu();
+            return;
+        }
+
+        super.onBackPressed();
+    }
+
+    private void toggleBottomMenu() {
+
+        ViewPropertyAnimator animator = container_menu_bottom.animate();
+        animator.setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                float temp = startValue;
+                startValue = endValue;
+                endValue = temp;
+                bottom_menu_is_active = !bottom_menu_is_active;
+
+//                if(bottom_menu_is_active)
+//                    layoutParams.height+=150;
+//                else
+//                    layoutParams.height-=150;
+//
+//                recyclerView.setLayoutParams(layoutParams);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        animator.translationY(endValue).setDuration(300).setInterpolator(new LinearInterpolator());
     }
 
 }
