@@ -38,6 +38,7 @@ public class SplashScreen extends AppCompatActivity {
         Animator slideUp = AnimatorInflater.loadAnimator(this,R.animator.animation);
         slideUp.setTarget(btn_register);
         slideUp.setStartDelay(2000);
+        slideUp.setDuration(800);
         slideUp.setInterpolator(new FastOutSlowInInterpolator());
         slideUp.start();
     }

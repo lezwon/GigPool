@@ -7,15 +7,13 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.transition.*;
 import android.util.DisplayMetrics;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,9 +43,22 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.btn_verify_number)
     Button btn_verify;
 
+    @BindView(R.id.radioGroup_gender)
+    RadioGroup radioGroup_gender;
+
+    @BindView(R.id.radioGroup_age)
+    RadioGroup radioGroup_age;
+
+    @BindView(R.id.img_gender_line)
+    ImageView img_gender_line;
+
+    @BindView(R.id.img_age_line)
+    ImageView img_age_line;
 
     private int windowHeight;
-    private boolean flag;
+    int currentPage = 0;
+    private int startScroll = 0;
+    private int endScroll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +67,14 @@ public class RegisterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setContainerHeights();
-        initializePhoneTextBox();
+        initializeListeners();
+
+
 
     }
 
-    private void initializePhoneTextBox() {
+    private void initializeListeners() {
+        /*Phone Textbox Listener*/
         phoneEditTextArrayList = new ArrayList<>();
         phoneEditTextArrayList.add((EditText) findViewById(R.id.text_phone_num_1));
         phoneEditTextArrayList.add((EditText) findViewById(R.id.text_phone_num_2));
@@ -69,97 +83,98 @@ public class RegisterActivity extends AppCompatActivity {
         for (int i = 0; i< phoneEditTextArrayList.size(); i++) {
             phoneEditTextArrayList.get(i).addTextChangedListener(new PhoneNumberTextboxListener(i));
         }
+
+        /*Radio Button Listener for gender*/
+        radioGroup_gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                RadioButton button = (RadioButton) findViewById(i);
+                animateLine(img_gender_line,i);
+            }
+        });
+
+        /*Radio Button Listener for age group*/
+        radioGroup_age.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                RadioButton button = (RadioButton) findViewById(i);
+                animateLine(img_age_line, i-2);
+            }
+        });
     }
+
+    private void animateLine(ImageView line, int i) {
+        int width = line.getLayoutParams().width;
+        float startValue = line.getTranslationX();
+        float endValue = width * (i-1);
+        ObjectAnimator animateLine = ObjectAnimator.ofFloat(line,"translationX", startValue, endValue);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(animateLine);
+        animatorSet.setDuration(400);
+        animatorSet.setInterpolator(new LinearOutSlowInInterpolator());
+        animatorSet.start();
+    }
+
 
     private void setContainerHeights() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        windowHeight = displayMetrics.heightPixels;
+        endScroll = windowHeight = displayMetrics.heightPixels;
         LinearLayout.LayoutParams  layoutParams = (LinearLayout.LayoutParams) main_container.getChildAt(0).getLayoutParams();
 
         layoutParams.height = windowHeight;
 
         for(int i = 0; i< main_container.getChildCount(); i++){
-            main_container.getChildAt(i).setLayoutParams(layoutParams);
+            View child = main_container.getChildAt(i);
+            child.setVisibility(View.VISIBLE);
+            child.setLayoutParams(layoutParams);
         }
     }
 
 
-    void verifyNumber(){
-        Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+    @OnClick(R.id.btn_verify_number)
+    void submitPhoneNumber(){
+        scrollDown();
+    }
+
+    @OnClick(R.id.btn_next)
+    void submitUsername(){
+        scrollDown();
+    }
+
+    @OnClick(R.id.btn_getStarted)
+    void submitGender(){
+        Intent intent = new Intent(this,HomeActivity.class);
         startActivity(intent);
     }
 
+    private void scrollDown() {
+        endScroll= windowHeight*++currentPage;
+        animateScroll();
+    }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    @OnClick(R.id.btn_verify_number)
-    void bottomAnimate(View view){
-//        LinearLayout formContainer = (LinearLayout) findViewById(R.id.textbox_group);
-//        Button verifyButton = (Button) findViewById(R.id.btn_verify_number);
-//
-//        Animator animationForm = AnimatorInflater.loadAnimator(this, R.animator.animation);
-//        animationForm.setTarget(formContainer);
-//        Animator animationButton = AnimatorInflater.loadAnimator(this, R.animator.animation);
-//        animationButton.setTarget(verifyButton);
-//
-//        AnimatorSet set = new AnimatorSet();
-//        set.playTogether(animationForm,animationButton);
-//        set.setDuration(500);
-//        set.setInterpolator(new LinearOutSlowInInterpolator());
-//        set.start();
+    private void scrollUp(){
+        endScroll= windowHeight*--currentPage;
+        animateScroll();
+    }
 
-
-//        ObjectAnimator animatorForm = ObjectAnimator.ofFloat(formContainer,"rotation", 0, 300);
-//        ObjectAnimator animatorBtn = ObjectAnimator.ofFloat(verifyButton,"rotation", 0, 400);
-
-//        AnimatorSet set = new AnimatorSet();
-////        set.playSequentially(animatorForm,animatorBtn);
-//        set.setDuration(500);
-//        set.setInterpolator(new FastOutSlowInInterpolator());
-//        set.start();
-
-//        ViewGroup transitionRoot = form_container;
-//        Scene expandedScene = Scene.getSceneForLayout(transitionRoot,R.layout.activity_register_end,view.getContext());
-//        Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.transition_register);
-//
-//        expandedScene.setEnterAction(new Runnable() {
-//            @Override
-//            public void run() {
-//                ButterKnife.bind(RegisterActivity.this);
-//                flag = true;
-//            }
-//        });
-//
-//        TransitionManager.go(expandedScene, transition);
-
-
-        ObjectAnimator animator_form_scroll = ObjectAnimator.ofInt(main_container,"scrollY", 0, windowHeight);
-//        ObjectAnimator animator_form_visibility = ObjectAnimator.ofInt(form_container,"visibility", View.VISIBLE, View.GONE);
-
+    private void animateScroll() {
+        ObjectAnimator animator_form_scroll = ObjectAnimator.ofInt(main_container,"scrollY", startScroll, endScroll);
         AnimatorSet animatorSet_form = new AnimatorSet();
         animatorSet_form.playSequentially(animator_form_scroll);
         animatorSet_form.setInterpolator(new LinearOutSlowInInterpolator());
-        animatorSet_form.setDuration(1000);
+        animatorSet_form.setDuration(800);
         animatorSet_form.start();
-
+        startScroll = endScroll;
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void onBackPressed() {
-        if(flag){
-            ViewGroup transitionRoot = form_container;
-            Scene expandedScene = Scene.getSceneForLayout(transitionRoot,R.layout.activity_register,this);
-            expandedScene.setEnterAction(new Runnable() {
-                @Override
-                public void run() {
-                    ButterKnife.bind(RegisterActivity.this);
-                    flag = false;
-                }
-            });
 
-            TransitionManager.go(expandedScene, new ChangeBounds());
+        if(currentPage>0){
+            scrollUp();
             return;
         }
 
@@ -187,15 +202,17 @@ public class RegisterActivity extends AppCompatActivity {
         public void afterTextChanged(Editable editable) {
             if(editable.length() >= 3 && currentTextBoxPos != 2){
                 phoneEditTextArrayList.get(currentTextBoxPos +1).requestFocus();
-                return;
+//                return;
             }
 
-            //todo backspace deletes from previous edittext
-            if(editable.length() == 0 && currentTextBoxPos != 0){
-                EditText editText = phoneEditTextArrayList.get(currentTextBoxPos - 1);
-                editText.requestFocus();
-                editText.dispatchKeyEvent(new KeyEvent(100,500,KeyEvent.ACTION_DOWN,KeyEvent.KEYCODE_DEL,3));
-            }
+//            //todo backspace deletes from previous edittext
+//            if(editable.length() == 0 && currentTextBoxPos != 0){
+//                EditText editText = phoneEditTextArrayList.get(currentTextBoxPos - 1);
+//                editText.requestFocus();
+//                editText.dispatchKeyEvent(new KeyEvent(100,500,KeyEvent.ACTION_DOWN,KeyEvent.KEYCODE_DEL,3));
+//            }
+
+            //// TODO: 21-10-2016 verfiy number animation
 
         }
     }
