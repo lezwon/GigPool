@@ -7,12 +7,16 @@ import android.graphics.Typeface;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import static android.content.ContentValues.TAG;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -37,6 +41,9 @@ public class SplashScreen extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState){
         super.onPostCreate(savedInstanceState);
         animateRegisterButton();
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "Refreshed token: " + refreshedToken);
     }
 
     private void animateRegisterButton() {
