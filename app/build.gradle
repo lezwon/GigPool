@@ -37,6 +37,8 @@ dependencies {
         compile 'com.jakewharton:butterknife:8.0.1'
         compile 'com.azimolabs.maskformatter:maskformatter:0.2'
         compile 'com.google.firebase:firebase-messaging:9.8.0'
+        compile 'com.google.firebase:firebase-auth:9.8.0'
+        compile 'com.google.android.gms:play-services-auth:9.8.0'
 //    compile 'com.shawnlin:number-picker:2.1.0'
 }
 
