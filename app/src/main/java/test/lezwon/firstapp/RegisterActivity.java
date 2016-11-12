@@ -5,6 +5,8 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +25,10 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
+import java.io.File;
 import java.util.ArrayList;
+
+import static android.os.Environment.getExternalStorageDirectory;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -65,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
     int currentPage = 0;
     private int startScroll = 0;
     private int endScroll;
-    private Uri photo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +81,12 @@ public class RegisterActivity extends AppCompatActivity {
         setContainerHeights();
         initializeListeners();
 
-        photo = getIntent().getParcelableExtra("photo");
-        profileImage.postInvalidate();
-        profileImage.invalidate();
-        profileImage.setImageURI(photo);
+        File imageFile = new File(getExternalStorageDirectory(),"Bhatinder/profile.PNG");
+
+        if(imageFile.exists()){
+            Bitmap image = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+            profileImage.setImageBitmap(image);
+        }
     }
 
     private void initializeListeners() {
@@ -166,7 +173,6 @@ public class RegisterActivity extends AppCompatActivity {
     private void scrollDown() {
         endScroll= windowHeight*++currentPage;
         animateScroll();
-        profileImage.setImageURI(photo);
     }
 
     private void scrollUp(){

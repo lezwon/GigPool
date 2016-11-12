@@ -5,6 +5,7 @@ import android.animation.AnimatorInflater;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.os.Bundle;
@@ -36,8 +37,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     private static final int RC_SIGN_IN = 1;
 
-    @BindView(R.id.app_title)
-    TextView appTitle;
 
     @BindView(R.id.google_signInBtn)
     SignInButton gButton;
@@ -53,13 +52,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         ButterKnife.bind(this);
         gButton.setTranslationY(300);
 
-        initializeTypeface();
         initializeGoogleAuth();
-    }
-
-    private void initializeTypeface() {
-        Typeface bubblegums = Typeface.createFromAsset(getAssets(), "fonts/BUBBLEGUMS.TTF");
-        appTitle.setTypeface(bubblegums);
     }
 
     private void initializeGoogleAuth() {
@@ -131,23 +124,29 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
-                    Toast.makeText(SplashScreen.this,acct.getEmail(),Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SplashScreen.this,RegisterActivity.class);
-                    intent.putExtra("photo",acct.getPhotoUrl());
-                    progressDialog.dismiss();
-                    startActivity(intent);
+                Toast.makeText(SplashScreen.this,acct.getEmail(),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SplashScreen.this,RegisterActivity.class);
 
-                    // If sign in fails, display a message to the user. If sign in succeeds
-                    // the auth state listener will be notified and logic to handle the
-                    // signed in user can be handled in the listener.
-                    if (!task.isSuccessful()) {
-                        Log.w(TAG, "signInWithCredential", task.getException());
-                        Toast.makeText(SplashScreen.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    // ...
+                Uri uri = acct.getPhotoUrl();
+
+                intent.putExtra("photo",acct.getPhotoUrl());
+                progressDialog.dismiss();
+
+                new ImageDownloadTask(uri).execute();
+
+                startActivity(intent);
+
+                // If sign in fails, display a message to the user. If sign in succeeds
+                // the auth state listener will be notified and logic to handle the
+                // signed in user can be handled in the listener.
+                if (!task.isSuccessful()) {
+                    Log.w(TAG, "signInWithCredential", task.getException());
+                    Toast.makeText(SplashScreen.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show();
+                }
+                // ...
                 }
             });
     }
