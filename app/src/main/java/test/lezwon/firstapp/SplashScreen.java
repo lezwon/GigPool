@@ -55,6 +55,9 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         ButterKnife.bind(this);
         btn_register.setTranslationY(300);
 
+        gButton.setSize(SignInButton.SIZE_WIDE);
+        gButton.setColorScheme(SignInButton.COLOR_AUTO);
+
         initializeTypeface();
         initializeGoogleAuth();
     }
@@ -111,6 +114,13 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     @OnClick(R.id.google_signInBtn)
     void signIn() {
 
+        showProgressDialog();
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+
+    }
+
+    private void showProgressDialog() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Signing In...");
@@ -118,9 +128,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         progressDialog.setProgress(0);
         progressDialog.setMax(100);
         progressDialog.show();
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-
     }
 
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {

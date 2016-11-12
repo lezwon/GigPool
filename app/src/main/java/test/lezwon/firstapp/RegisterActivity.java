@@ -20,6 +20,7 @@ import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
     ImageView img_age_line;
 
     @BindView(R.id.profile_image)
-    ImageView profileImage;
+    CircleImageView profileImage;
 
     private int windowHeight;
     int currentPage = 0;
@@ -78,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
         photo = getIntent().getParcelableExtra("photo");
         profileImage.postInvalidate();
         profileImage.invalidate();
-        profileImage.setImageURI(null);
+        profileImage.setImageURI(photo);
     }
 
     private void initializeListeners() {
@@ -88,16 +89,20 @@ public class RegisterActivity extends AppCompatActivity {
         phoneEditTextArrayList.add((EditText) findViewById(R.id.text_phone_num_2));
         phoneEditTextArrayList.add((EditText) findViewById(R.id.text_phone_num_3));
 
-        for (int i = 0; i< phoneEditTextArrayList.size(); i++) {
-            phoneEditTextArrayList.get(i).addTextChangedListener(new PhoneNumberTextboxListener(i));
+        for (int j = 0; j< phoneEditTextArrayList.size(); j++) {
+            phoneEditTextArrayList.get(j).addTextChangedListener(new PhoneNumberTextboxListener(j));
         }
 
         /*Radio Button Listener for gender*/
+        radioGroup_gender.clearCheck();
+        radioGroup_age.clearCheck();
+
         radioGroup_gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
                 RadioButton button = (RadioButton) findViewById(i);
-                animateLine(img_gender_line,i);
+                int index = radioGroup.indexOfChild(button);
+                animateLine(img_gender_line,index);
             }
         });
 
@@ -106,7 +111,8 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
                 RadioButton button = (RadioButton) findViewById(i);
-                animateLine(img_age_line, i-2);
+                int index = radioGroup.indexOfChild(button);
+                animateLine(img_age_line, index);
             }
         });
     }
@@ -114,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void animateLine(ImageView line, int i) {
         int width = line.getLayoutParams().width;
         float startValue = line.getTranslationX();
-        float endValue = width * (i-1);
+        float endValue = width * (i);
         ObjectAnimator animateLine = ObjectAnimator.ofFloat(line,"translationX", startValue, endValue);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(animateLine);
