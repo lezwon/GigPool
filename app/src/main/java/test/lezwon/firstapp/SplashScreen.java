@@ -35,8 +35,6 @@ import static android.content.ContentValues.TAG;
 public class SplashScreen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 1;
-    @BindView(R.id.btn_register)
-    Button btn_register;
 
     @BindView(R.id.app_title)
     TextView appTitle;
@@ -53,10 +51,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         ButterKnife.bind(this);
-        btn_register.setTranslationY(300);
-
-        gButton.setSize(SignInButton.SIZE_WIDE);
-        gButton.setColorScheme(SignInButton.COLOR_AUTO);
+        gButton.setTranslationY(300);
 
         initializeTypeface();
         initializeGoogleAuth();
@@ -113,11 +108,9 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     @OnClick(R.id.google_signInBtn)
     void signIn() {
-
         showProgressDialog();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
-
     }
 
     private void showProgressDialog() {
@@ -189,17 +182,11 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     private void animateRegisterButton() {
         Animator slideUp = AnimatorInflater.loadAnimator(this,R.animator.animation);
-        slideUp.setTarget(btn_register);
+        slideUp.setTarget(gButton);
         slideUp.setStartDelay(2000);
         slideUp.setDuration(800);
         slideUp.setInterpolator(new FastOutSlowInInterpolator());
         slideUp.start();
-    }
-
-    @OnClick(R.id.btn_register)
-    void loadRegisterActivity(View view){
-        Intent intent = new Intent(this,RegisterActivity.class);
-        startActivity(intent);
     }
 
     @Override
