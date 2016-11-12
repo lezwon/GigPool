@@ -2,6 +2,7 @@ package test.lezwon.firstapp;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
@@ -44,6 +46,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +110,17 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
     @OnClick(R.id.google_signInBtn)
     void signIn() {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Signing In...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setProgress(0);
+        progressDialog.setMax(100);
+        progressDialog.show();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
     }
 
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
@@ -122,6 +134,10 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                     Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
                     Toast.makeText(SplashScreen.this,acct.getEmail(),Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(SplashScreen.this,RegisterActivity.class);
+                    intent.putExtra("photo",acct.getPhotoUrl());
+                    progressDialog.dismiss();
+                    startActivity(intent);
 
                     // If sign in fails, display a message to the user. If sign in succeeds
                     // the auth state listener will be notified and logic to handle the
@@ -148,6 +164,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
             } else {
+                Toast.makeText(this,"Error",Toast.LENGTH_SHORT).show();
                 // Google Sign In failed, update UI appropriately
                 // ...
             }

@@ -5,8 +5,10 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.IdRes;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
@@ -55,10 +57,14 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.img_age_line)
     ImageView img_age_line;
 
+    @BindView(R.id.profile_image)
+    ImageView profileImage;
+
     private int windowHeight;
     int currentPage = 0;
     private int startScroll = 0;
     private int endScroll;
+    private Uri photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +75,10 @@ public class RegisterActivity extends AppCompatActivity {
         setContainerHeights();
         initializeListeners();
 
-
-
+        photo = getIntent().getParcelableExtra("photo");
+        profileImage.postInvalidate();
+        profileImage.invalidate();
+        profileImage.setImageURI(null);
     }
 
     private void initializeListeners() {
@@ -152,6 +160,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void scrollDown() {
         endScroll= windowHeight*++currentPage;
         animateScroll();
+        profileImage.setImageURI(photo);
     }
 
     private void scrollUp(){
