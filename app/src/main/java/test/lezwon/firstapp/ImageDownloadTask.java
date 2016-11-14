@@ -34,7 +34,8 @@ class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
     protected Bitmap doInBackground(String... url) {
 
         try{
-            InputStream inputStream = new URL(uri.toString()).openStream();
+            String urlString = uri.toString().replace("96", "200");
+            InputStream inputStream = new URL(urlString).openStream();
             bitmap = BitmapFactory.decodeStream(inputStream);
         }catch (Exception e){
             e.printStackTrace();
