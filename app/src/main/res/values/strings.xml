@@ -34,6 +34,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="server_client_id">709468606987-u9sf5msvf4m5jgoeahnf7u7pib7k2ls1.apps.googleusercontent.com</string>
 
 
 </resources>
