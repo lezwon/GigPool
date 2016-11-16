@@ -1,8 +1,11 @@
 package test.lezwon.firstapp;
 
 import android.animation.Animator;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,8 +15,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * The Home Activity class displays the activity_home layout. The material
@@ -33,6 +40,9 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ViewGroup.LayoutParams layoutParams;
 
+    FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener mAuthStateListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +57,16 @@ public class HomeActivity extends AppCompatActivity {
 //        container_menu_bottom.setVisibility(View.INVISIBLE);
         container_menu_bottom.setTranslationY(300);
         initializeDrawer(toolbar);
+
+        mAuth = FirebaseAuth.getInstance();
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser() == null){
+                    startActivity(new Intent(HomeActivity.this,SplashScreen.class));
+                }
+            }
+        };
     }
 
     @Override
@@ -56,9 +76,43 @@ public class HomeActivity extends AppCompatActivity {
         layoutParams = recyclerView != null ? recyclerView.getLayoutParams() : null;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(mAuthStateListener);
+    }
+
     private void initializeDrawer(Toolbar toolbar) {
     /*enables the drawer toggle button*/
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView  = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener(){
+
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                        menuItem.setChecked(true);
+                        if(menuItem.getTitle().equals("Sign Out"))
+                        {
+                            drawerLayout.closeDrawers();
+                            mAuth.signOut();
+                            Toast.makeText(HomeActivity.this,"Sign out",Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+
+                        return false;
+                    }
+                }
+        );
+
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -69,7 +123,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         /*enables toggle button*/
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         initializeActionBar(actionBarDrawerToggle);
     }
@@ -127,12 +181,6 @@ public class HomeActivity extends AppCompatActivity {
                 endValue = temp;
                 bottom_menu_is_active = !bottom_menu_is_active;
 
-//                if(bottom_menu_is_active)
-//                    layoutParams.height+=150;
-//                else
-//                    layoutParams.height-=150;
-//
-//                recyclerView.setLayoutParams(layoutParams);
             }
 
             @Override

@@ -52,7 +52,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         setContentView(R.layout.activity_splash_screen);
         ButterKnife.bind(this);
         gButton.setTranslationY(300);
-
         initializeGoogleAuth();
     }
 
@@ -68,29 +67,14 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        OptionalPendingResult<GoogleSignInResult> pendingResult =
-                Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-
-        if (pendingResult.isDone()){
-            Intent homeIntent = new Intent(this, HomeActivity.class);
-            startActivity(homeIntent);
-            return;
-        }
-
-
         mAuth = FirebaseAuth.getInstance();
+
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
+
                 // ...
             }
         };
@@ -139,7 +123,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
 
                 Toast.makeText(SplashScreen.this,acct.getEmail(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SplashScreen.this,RegisterActivity.class);
-
                 Uri uri = acct.getPhotoUrl();
 
                 intent.putExtra("photo",acct.getPhotoUrl());
@@ -173,6 +156,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
+
             } else {
                 Toast.makeText(this,"Error",Toast.LENGTH_SHORT).show();
                 // Google Sign In failed, update UI appropriately
