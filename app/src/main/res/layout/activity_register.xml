@@ -110,6 +110,7 @@
                     android:textSize="16sp"
                     android:stateListAnimator="@null"
                     android:focusable="true"
+                    android:layout_gravity="center"
             />
 
         </LinearLayout>

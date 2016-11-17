@@ -27,6 +27,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.*;
@@ -34,7 +36,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import static android.content.ContentValues.TAG;
 
-public class SplashScreen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class SplashScreen extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 1;
 
@@ -45,6 +47,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private ProgressDialog progressDialog;
+    private GoogleAuth googleAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,33 +55,49 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         setContentView(R.layout.activity_splash_screen);
         ButterKnife.bind(this);
         gButton.setTranslationY(300);
+        googleAuth = ((GoogleAuth) getApplication());
         initializeGoogleAuth();
     }
 
     private void initializeGoogleAuth() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.server_client_id))
-                .requestEmail()
-                .build();
 
-        /* FragmentActivity *//* OnConnectionFailedListener */
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+
+        googleAuth.build(this, getString(R.string.server_client_id));
+//
+//        /* FragmentActivity *//* OnConnectionFailedListener */
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+////                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+//                .build();
+
+
 
         mAuth = FirebaseAuth.getInstance();
 
-
+        mGoogleApiClient = googleAuth.getGoogleApiClient();
+//
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                // ...
             }
         };
+
+        final OptionalPendingResult<GoogleSignInResult> pendingResult =
+                Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+
+        pendingResult.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+            @Override
+            public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+                if(googleSignInResult.isSuccess()){
+                    startActivity(new Intent(SplashScreen.this,HomeActivity.class));
+                }
+            }
+        });
+
     }
+
+
 
     @Override
     public void onStart() {
@@ -89,6 +108,8 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void onStop() {
         super.onStop();
+        mGoogleApiClient.stopAutoManage(this);
+
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
@@ -140,7 +161,6 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                     Toast.makeText(SplashScreen.this, "Authentication failed.",
                             Toast.LENGTH_SHORT).show();
                 }
-                // ...
                 }
             });
     }
@@ -156,6 +176,7 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
+
 
             } else {
                 Toast.makeText(this,"Error",Toast.LENGTH_SHORT).show();
@@ -183,8 +204,5 @@ public class SplashScreen extends AppCompatActivity implements GoogleApiClient.O
         slideUp.start();
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this,"Failed",Toast.LENGTH_SHORT).show();
-    }
+
 }

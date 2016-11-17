@@ -20,6 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -37,11 +39,11 @@ public class HomeActivity extends AppCompatActivity {
     private boolean bottom_menu_is_active = false;
     private float startValue = 150;
     private float endValue = 0;
-    private RecyclerView recyclerView;
-    private ViewGroup.LayoutParams layoutParams;
 
-    FirebaseAuth mAuth;
-    FirebaseAuth.AuthStateListener mAuthStateListener;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private GoogleApiClient mGoogleApiClient;
+    private GoogleAuth googleAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +59,17 @@ public class HomeActivity extends AppCompatActivity {
 //        container_menu_bottom.setVisibility(View.INVISIBLE);
         container_menu_bottom.setTranslationY(300);
         initializeDrawer(toolbar);
-
         mAuth = FirebaseAuth.getInstance();
+
+        googleAuth = ((GoogleAuth) getApplication());
+        googleAuth.build(this, getString(R.string.server_client_id));
+        mGoogleApiClient = googleAuth.getGoogleApiClient();
+
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser() == null){
-                    startActivity(new Intent(HomeActivity.this,SplashScreen.class));
+                if(mAuth.getCurrentUser() == null){
+
                 }
             }
         };
@@ -72,8 +78,8 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        recyclerView = (RecyclerView) getSupportFragmentManager().findFragmentById(R.id.fragment_chat_list).getView();
-        layoutParams = recyclerView != null ? recyclerView.getLayoutParams() : null;
+        RecyclerView recyclerView = (RecyclerView) getSupportFragmentManager().findFragmentById(R.id.fragment_chat_list).getView();
+        ViewGroup.LayoutParams layoutParams = recyclerView != null ? recyclerView.getLayoutParams() : null;
     }
 
     @Override
@@ -104,7 +110,14 @@ public class HomeActivity extends AppCompatActivity {
                         {
                             drawerLayout.closeDrawers();
                             mAuth.signOut();
-                            Toast.makeText(HomeActivity.this,"Sign out",Toast.LENGTH_SHORT).show();
+                            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                                @Override
+                                public void onResult(@NonNull Status status) {
+                                    Toast.makeText(HomeActivity.this,"Sign out",Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(HomeActivity.this,SplashScreen.class));
+                                }
+                            });
+
                             return true;
                         }
 
@@ -126,6 +139,20 @@ public class HomeActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         initializeActionBar(actionBarDrawerToggle);
+    }
+
+    public void signOut() {
+        // Firebase sign out
+        mAuth.signOut();
+
+        // Google revoke access
+        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+
+                    }
+                });
     }
 
     private void initializeActionBar(ActionBarDrawerToggle actionBarDrawerToggle) {
