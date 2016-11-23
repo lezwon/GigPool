@@ -21,22 +21,22 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.api.services.people.v1.People;
+import com.google.api.services.people.v1.model.Person;
 import com.google.firebase.auth.*;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+
 import static android.content.ContentValues.TAG;
 
-public class SplashScreen extends AppCompatActivity {
+public class SplashScreen extends AppCompatActivity implements OnPeopleFetched{
 
     private static final int RC_SIGN_IN = 1;
 
@@ -60,22 +60,11 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     private void initializeGoogleAuth() {
-
-
-        googleAuth.build(this, getString(R.string.server_client_id));
-//
-//        /* FragmentActivity *//* OnConnectionFailedListener */
-//        mGoogleApiClient = new GoogleApiClient.Builder(this)
-////                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                .build();
-
-
-
-        mAuth = FirebaseAuth.getInstance();
+        googleAuth.build(this);
 
         mGoogleApiClient = googleAuth.getGoogleApiClient();
-//
+
+        mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -84,14 +73,16 @@ public class SplashScreen extends AppCompatActivity {
         };
 
         final OptionalPendingResult<GoogleSignInResult> pendingResult =
-                Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+            Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
 
         pendingResult.setResultCallback(new ResultCallback<GoogleSignInResult>() {
             @Override
             public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-                if(googleSignInResult.isSuccess()){
-                    startActivity(new Intent(SplashScreen.this,HomeActivity.class));
-                }
+            if(googleSignInResult.isSuccess()){
+                Intent intent = new Intent(SplashScreen.this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
             }
         });
 
@@ -145,8 +136,13 @@ public class SplashScreen extends AppCompatActivity {
                 Toast.makeText(SplashScreen.this,acct.getEmail(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SplashScreen.this,RegisterActivity.class);
                 Uri uri = acct.getPhotoUrl();
-
                 intent.putExtra("photo",acct.getPhotoUrl());
+
+                PeopleAuthTask peopleAuthTask = new PeopleAuthTask(getApplicationContext());
+                peopleAuthTask.addOnPeopleFetchedListener(SplashScreen.this);
+                peopleAuthTask.execute(acct.getServerAuthCode());
+
+
                 progressDialog.dismiss();
 
                 new ImageDownloadTask(uri).execute();
@@ -184,6 +180,12 @@ public class SplashScreen extends AppCompatActivity {
                 // ...
             }
         }
+    }
+
+
+    @Override
+    public void onPeopleFetched(Person profile) {
+        profile.getAgeRange();
     }
 
     @Override

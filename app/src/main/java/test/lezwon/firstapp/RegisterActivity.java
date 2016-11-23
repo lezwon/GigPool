@@ -22,6 +22,9 @@ import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -66,8 +69,11 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.profile_image)
     CircleImageView profileImage;
 
+    @BindView(R.id.editText_name)
+    TextView textView_name;
+
     private int windowHeight;
-    int currentPage = 0;
+    private int currentPage = 0;
     private int startScroll = 0;
     private int endScroll;
 
@@ -80,6 +86,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         setContainerHeights();
         initializeListeners();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            textView_name.setText(user.getDisplayName());
+        }
 
         File imageFile = new File(getExternalStorageDirectory(),"Bhatinder/profile.PNG");
 
@@ -167,6 +179,7 @@ public class RegisterActivity extends AppCompatActivity {
     @OnClick(R.id.btn_getStarted)
     void submitGender(){
         Intent intent = new Intent(this,HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 

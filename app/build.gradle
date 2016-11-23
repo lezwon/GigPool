@@ -39,6 +39,9 @@ dependencies {
         compile 'com.google.firebase:firebase-messaging:9.8.0'
         compile 'com.google.firebase:firebase-auth:9.8.0'
         compile 'com.google.android.gms:play-services-auth:9.8.0'
+        compile 'com.google.apis:google-api-services-people:v1-rev5-1.22.0'
+        compile 'com.google.code.gson:gson:2.7'
+        compile 'com.google.oauth-client:google-oauth-client-jetty:1.22.0'
 //    compile 'com.shawnlin:number-picker:2.1.0'
 }
 

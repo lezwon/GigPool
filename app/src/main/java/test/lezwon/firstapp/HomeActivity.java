@@ -43,7 +43,6 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private GoogleApiClient mGoogleApiClient;
-    private GoogleAuth googleAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +60,15 @@ public class HomeActivity extends AppCompatActivity {
         initializeDrawer(toolbar);
         mAuth = FirebaseAuth.getInstance();
 
-        googleAuth = ((GoogleAuth) getApplication());
-        googleAuth.build(this, getString(R.string.server_client_id));
+        GoogleAuth googleAuth = ((GoogleAuth) getApplication());
+        googleAuth.build(this);
         mGoogleApiClient = googleAuth.getGoogleApiClient();
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(mAuth.getCurrentUser() == null){
-
+                if(firebaseAuth.getCurrentUser() == null){
+                    startActivity(new Intent(HomeActivity.this,SplashScreen.class));
                 }
             }
         };
@@ -113,8 +112,11 @@ public class HomeActivity extends AppCompatActivity {
                             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                                 @Override
                                 public void onResult(@NonNull Status status) {
-                                    Toast.makeText(HomeActivity.this,"Sign out",Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(HomeActivity.this,SplashScreen.class));
+                                    if(status.isSuccess()){
+                                        Toast.makeText(HomeActivity.this,"Sign out",Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(HomeActivity.this,SplashScreen.class));
+                                    }
+
                                 }
                             });
 
@@ -189,7 +191,11 @@ public class HomeActivity extends AppCompatActivity {
             return;
         }
 
-        super.onBackPressed();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
     }
 
     private void toggleBottomMenu() {
